@@ -34,3 +34,15 @@ RUN apt-get install -y libxml2-dev \
 
 # ZIP (required for Composer)
 RUN docker-php-ext-install -j$(nproc) zip
+
+# dBase for dbf open (required for kladr update)
+RUN pecl install dbase \
+	&& docker-php-ext-enable dbase
+
+# 7-Zip CLI for gemorroj/archive7z (required for kladr update)
+RUN apt-get install -y p7zip-full
+
+# PHP Composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+	&& php composer-setup.php --install-dir=/usr/bin --filename=composer \
+	&& php -r "unlink('composer-setup.php');"
