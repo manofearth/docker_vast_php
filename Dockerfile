@@ -24,3 +24,13 @@ RUN pecl install xdebug \
 
 # BCMath
 RUN docker-php-ext-install -j$(nproc) bcmath
+
+# PCNTL - for process control (fork, wait, etc.)
+RUN docker-php-ext-install -j$(nproc) pcntl
+
+# SOAP
+RUN apt-get install -y libxml2-dev \
+	&& docker-php-ext-install -j$(nproc) soap
+
+# ZIP (required for Composer)
+RUN docker-php-ext-install -j$(nproc) zip
